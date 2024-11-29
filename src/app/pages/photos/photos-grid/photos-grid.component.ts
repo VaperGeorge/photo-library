@@ -16,7 +16,7 @@ import { PhotosStore } from '../../../stores/photos.store';
 })
 export class PhotosGridComponent {
   @HostListener('window:scroll', ['$event'])
-  onScroll() {
+  onScroll(): void {
     if (this.store.isLoading()) return;
 
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;

@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     const buttons = fixture.debugElement.queryAll(By.css('button'));
-    expect(buttons.length).toBeGreaterThanOrEqual(2); // Adjust if you have more or fewer buttons.
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
 
     const favoritesButton = buttons.find((btn) => btn.nativeElement.textContent.includes('Favorites'));
     const photosButton = buttons.find((btn) => btn.nativeElement.textContent.includes('Photos'));

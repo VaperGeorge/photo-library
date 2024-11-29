@@ -52,7 +52,7 @@ export class FavoriteService {
 
   private saveToCookies(favorites: Photo[]): void {
     this.cookieService.set(this.cookieKey, JSON.stringify(favorites), {
-      expires: 7, // Expires in 7 days
+      expires: 7,
       path: '/',
     });
   }

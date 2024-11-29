@@ -50,7 +50,7 @@ describe('FavoriteService', () => {
   });
 
   it('should add a photo to favorites', () => {
-    cookieService.get.and.returnValue('[]'); // Empty favorites
+    cookieService.get.and.returnValue('[]'); 
     cookieService.set.and.stub();
 
     service.addPhotoItem(mockPhoto);
@@ -65,7 +65,7 @@ describe('FavoriteService', () => {
 
     service.addPhotoItem(mockPhoto);
 
-    expect(cookieService.set).not.toHaveBeenCalled(); // No new cookie set
+    expect(cookieService.set).not.toHaveBeenCalled(); 
     expect(toastr.info).toHaveBeenCalledWith('This photo already exist in favorites', 'Information!');
   });
 
@@ -100,7 +100,6 @@ describe('FavoriteService', () => {
   });
 
   afterEach(() => {
-    // Reset spies after each test
     cookieService.get.calls.reset();
     cookieService.set.calls.reset();
     toastr.success.calls.reset();

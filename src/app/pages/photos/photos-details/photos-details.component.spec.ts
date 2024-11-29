@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -16,9 +16,9 @@ describe('PhotosDetailsComponent', () => {
   let fixture: ComponentFixture<PhotosDetailsComponent>;
   let favoriteServiceMock: jasmine.SpyObj<FavoriteService>;
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // Mock FavoriteService
     favoriteServiceMock = jasmine.createSpyObj('FavoriteService', ['getFavoritePhotoById', 'removePhotoItem']);
     favoriteServiceMock.getFavoritePhotoById.and.callFake((id: string) => {
       const photos = [
@@ -29,12 +29,14 @@ describe('PhotosDetailsComponent', () => {
     });
 
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], { snapshot: { params: { photoId: '1' } } });
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [MatButtonModule, MatIcon, MatCardModule, JsonPipe, PhotosDetailsComponent],
       providers: [
         { provide: FavoriteService, useValue: favoriteServiceMock },
         { provide: ActivatedRoute, useValue: routeMock },
+        { provide: Router, useValue: routerSpy },
         provideExperimentalZonelessChangeDetection(),
       ],
     }).compileComponents();

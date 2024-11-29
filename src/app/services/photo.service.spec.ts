@@ -34,27 +34,23 @@ describe('PhotoService', () => {
     const limit = 2;
     const params = new HttpParams().set('page', page.toString()).set('limit', limit.toString());
 
-    // Spy on the actual HTTP request
     service.fetchRandomPhotos(page, limit).subscribe((photos) => {
       expect(photos).toEqual(mockPhotos);
     });
 
-    // Expect an HTTP GET request with the correct URL and params
     const req = httpMock.expectOne(
       (req) => req.url === 'https://picsum.photos/v2/list' && req.params.toString() === params.toString(),
     );
 
-    // Respond with mock photos
     req.flush(mockPhotos);
 
-    // Verify that no other requests are pending
     httpMock.verify();
   });
 
   it('should apply a random delay', () => {
     const page = 1;
     const limit = 2;
-    const randomDelaySpy = spyOn(Math, 'random').and.returnValue(0.5); // Simulate a delay of around 250ms
+    const randomDelaySpy = spyOn(Math, 'random').and.returnValue(0.5);
 
     service.fetchRandomPhotos(page, limit).subscribe();
 
@@ -65,12 +61,10 @@ describe('PhotoService', () => {
     expect(req.request.params.get('page')).toBe(page.toString());
     expect(req.request.params.get('limit')).toBe(limit.toString());
 
-    // Verify that no other requests are pending
     httpMock.verify();
   });
 
   afterEach(() => {
-    // Clean up any remaining requests
     httpMock.verify();
   });
 });

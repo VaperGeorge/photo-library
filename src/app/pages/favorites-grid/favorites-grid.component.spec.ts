@@ -66,7 +66,7 @@ describe('FavoritesGridComponent', () => {
     await firstDeferBlock.render(ɵDeferBlockState.Placeholder);
 
     const emptyState = fixture.nativeElement.querySelector('.empty-state');
-    console.log(emptyState);
+
     expect(emptyState).toBeTruthy();
   });
 

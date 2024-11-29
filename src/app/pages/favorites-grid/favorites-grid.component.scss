@@ -1,9 +1,11 @@
-.mat-mdc-card-content {
-  margin-top: 25px;
-}
-
 .favorite-grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
+  &__content {
+    margin-top: 25px;
+  }
+
+  &__list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

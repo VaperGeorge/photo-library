@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { PhotosGridComponent } from './photos-grid.component';
 import { PhotosStore } from '../../../stores/photos.store';
 import { Photo } from '../../../../shared';
-import { computed, provideExperimentalZonelessChangeDetection, signal } from '@angular/core';
+import { computed, provideExperimentalZonelessChangeDetection, signal, ɵDeferBlockState } from '@angular/core';
 
 const createMockPhotosStore = () => {
   const mockPhotos = signal<Photo[]>([
@@ -18,19 +18,15 @@ const createMockPhotosStore = () => {
   const mockRequestStatus = signal<'idle' | 'pending' | 'fulfilled' | 'error'>('idle');
 
   return {
-    // Signals
     photos: mockPhotos,
     page: mockPage,
     requestStatus: mockRequestStatus,
 
-    // Computed properties
     isError: computed(() => mockRequestStatus() === 'error'),
     isLoading: computed(() => mockRequestStatus() === 'pending'),
     isFullfilled: computed(() => mockRequestStatus() === 'fulfilled'),
 
-    // Methods
     loadMore: jasmine.createSpy('loadMore').and.callFake(() => {
-      // Simulate fetching photos and updating state
       mockRequestStatus.set('pending');
       setTimeout(() => {
         const newPhotos: Photo[] = [
@@ -50,9 +46,7 @@ const createMockPhotosStore = () => {
         mockPage.set(mockPage() + 1);
       }, 200);
     }),
-    addToFavorites: jasmine.createSpy('addToFavorites').and.callFake((photo: Photo) => {
-      // Simulate adding to favorites (no-op here)
-    }),
+    addToFavorites: jasmine.createSpy('addToFavorites').and.callFake((photo: Photo) => {}),
   };
 };
 
@@ -77,8 +71,11 @@ describe('PhotosGridComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display a list of photos from the store', () => {
+  it('should display a list of photos from the store', async () => {
     fixture.detectChanges();
+
+    const firstDeferBlock = (await fixture.getDeferBlocks())[0];
+    await firstDeferBlock.render(ɵDeferBlockState.Complete);
 
     const photoItems = fixture.debugElement.queryAll(By.css('.photos-grid__item'));
     expect(photoItems.length).toBe(2);
@@ -104,7 +101,7 @@ describe('PhotosGridComponent', () => {
   });
 
   it('should display a spinner when loading', () => {
-    mockStore.isLoading = computed(() => true); // Simulate loading state
+    mockStore.isLoading = computed(() => true);
     const fixture = TestBed.createComponent(PhotosGridComponent);
     fixture.detectChanges();
 
@@ -113,7 +110,7 @@ describe('PhotosGridComponent', () => {
   });
 
   it('should display an error message on API error', () => {
-    mockStore.isError = computed(() => true); // Simulate error state
+    mockStore.isError = computed(() => true);
     const fixture = TestBed.createComponent(PhotosGridComponent);
     fixture.detectChanges();
 

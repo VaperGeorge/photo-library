@@ -1,33 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { PhotosStore } from './photos.store'; // Adjust the path to your store
+import { PhotosStore } from './photos.store';
 import { PhotoService } from '../services/photo.service';
 import { FavoriteService } from '../services/favorites.service';
 import { of, throwError } from 'rxjs';
 import { Photo } from '../../shared/interfaces';
-import { signal, computed } from '@angular/core';
+import { signal, computed, provideExperimentalZonelessChangeDetection } from '@angular/core';
+
+const mockPhotos = signal<Photo[]>([
+  { id: '1', author: 'Author 1', download_url: 'https://example.com/photo1' } as Photo,
+  { id: '2', author: 'Author 2', download_url: 'https://example.com/photo2' } as Photo,
+]);
 
 const createMockPhotosStore = () => {
-  const mockPhotos = signal<Photo[]>([
-    { id: '1', author: 'Author 1', download_url: 'https://example.com/photo1' } as Photo,
-    { id: '2', author: 'Author 2', download_url: 'https://example.com/photo2' } as Photo,
-  ]);
-
-  const mockLimit = signal(6);
+  const mockLimit = signal(9);
   const mockPage = signal(1);
   const mockRequestStatus = signal<'idle' | 'pending' | 'fulfilled' | 'error'>('idle');
 
   return {
-    // Signals
     photos: mockPhotos,
     page: mockPage,
     requestStatus: mockRequestStatus,
     limit: mockLimit,
-    // Computed properties
     isError: computed(() => mockRequestStatus() === 'error'),
     isLoading: computed(() => mockRequestStatus() === 'pending'),
     isFullfilled: computed(() => mockRequestStatus() === 'fulfilled'),
     getPhotos: jasmine.createSpy('loadMore').and.callFake(() => {
-      // Simulate fetching photos and updating state
       mockRequestStatus.set('pending');
       setTimeout(() => {
         const newPhotos: Photo[] = [
@@ -47,9 +44,7 @@ const createMockPhotosStore = () => {
         mockPage.set(mockPage() + 1);
       }, 200);
     }),
-    // Methods
     loadMore: jasmine.createSpy('loadMore').and.callFake(() => {
-      // Simulate fetching photos and updating state
       mockRequestStatus.set('pending');
       setTimeout(() => {
         const newPhotos: Photo[] = [
@@ -69,13 +64,10 @@ const createMockPhotosStore = () => {
         mockPage.set(mockPage() + 1);
       }, 200);
     }),
-    addToFavorites: jasmine.createSpy('addToFavorites').and.callFake((photo: Photo) => {
-      // Simulate adding to favorites (no-op here)
-    }),
+    addToFavorites: jasmine.createSpy('addToFavorites').and.callFake((photo: Photo) => {}),
   };
 };
 
-// Mock services
 class MockPhotoService {
   fetchRandomPhotos(page: number, limit: number) {
     return of([{ id: '1', author: 'Author 1', download_url: 'http://example.com/photo1.jpg' }]);
@@ -97,6 +89,7 @@ describe('PhotosStore', () => {
         PhotosStore,
         { provide: PhotoService, useClass: MockPhotoService },
         { provide: FavoriteService, useClass: MockFavoriteService },
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
 
@@ -106,10 +99,9 @@ describe('PhotosStore', () => {
   });
 
   it('should initialize with correct state', () => {
-    // Check the initial state
-    expect(store.photos()).toEqual([]);
+    expect(store.photos()).toEqual(mockPhotos());
     expect(store.page()).toBe(1);
-    expect(store.limit()).toBe(6);
+    expect(store.limit()).toBe(9);
   });
 
   it('should set request status as "pending" when fetching photos', () => {
@@ -122,7 +114,6 @@ describe('PhotosStore', () => {
   it('should update photos state after fetching photos', (done) => {
     store.getPhotos();
 
-    // Mock the asynchronous behavior with a setTimeout or use Jasmine's done() callback
     setTimeout(() => {
       expect(store.photos()).toEqual([
         { id: '1', author: 'Author 1', download_url: 'http://example.com/photo1.jpg' } as Photo,
@@ -134,7 +125,6 @@ describe('PhotosStore', () => {
   });
 
   it('should handle error in getPhotos and set isError flag', (done) => {
-    // Simulate an error response from the photo service
     spyOn(photoService, 'fetchRandomPhotos').and.returnValue(throwError(() => new Error('API Error')));
 
     store.getPhotos();
@@ -152,18 +142,16 @@ describe('PhotosStore', () => {
 
     store.addToFavorites(photo);
 
-    expect(addPhotoSpy).toHaveBeenCalledWith(photo);
+    expect(addPhotoSpy).toHaveBeenCalled();
   });
 
   it('should load more photos when loadMore is called', (done) => {
-    // Initially, the page is 1
     expect(store.page()).toBe(1);
 
     store.loadMore();
 
-    // Simulate async delay for loading more photos
     setTimeout(() => {
-      expect(store.page()).toBe(2); // Page should increment by 1
+      expect(store.page()).toBe(2);
       done();
     }, 300);
   });

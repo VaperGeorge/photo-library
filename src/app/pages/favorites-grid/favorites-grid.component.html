@@ -1,17 +1,19 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Favorite photos</mat-card-title>
-  </mat-card-header>
+<div class="favorite-grid">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Favorite photos</mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content>
-    @defer (when photos().length) {
-      <div class="favorite-grid">
-        @for (photo of photos(); track $index) {
-          <app-photos-grid-item class="favorite-grid__item" [photo]="photo" (openDetails)="openDetails($event)" />
-        }
-      </div>
-    } @placeholder {
-      <div class="empty-state">You don't have favorite photos yet</div>
-    }
-  </mat-card-content>
-</mat-card>
+    <mat-card-content class="favorite-grid__content">
+      @defer (when photos().length) {
+        <div class="favorite-grid__list">
+          @for (photo of photos(); track $index) {
+            <app-photos-grid-item class="favorite-grid__item" [photo]="photo" (openDetails)="openDetails($event)" />
+          }
+        </div>
+      } @placeholder {
+        <div class="empty-state">You don't have favorite photos yet</div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

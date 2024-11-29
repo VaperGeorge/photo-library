@@ -17,7 +17,7 @@ type PhotosState = {
 
 const initialState: PhotosState = {
   photos: [],
-  limit: 6,
+  limit: 9,
   page: 1,
 };
 
