@@ -1,1 +1,24 @@
-<p>photos-details works!</p>
+<mat-card appearance="outlined">
+  @if (photo(); as photo) {
+    <mat-card-header>
+      <mat-card-title>{{ photo.author }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="photo-details">
+        <img [src]="photo.download_url" [alt]="photo.author" />
+
+        <button mat-fab extended (click)="removeFromFavorite(photo)">
+          <mat-icon>favorite</mat-icon>
+          Remove from favorite
+        </button>
+      </div>
+    </mat-card-content>
+  } @else {
+    <mat-card-content class="empty-state">
+      <h5 class="empty-state__title">The photo does not exist</h5>
+
+      <button class="empty-state__button" mat-stroked-button routerLink="/favorites">Go back to Favorites</button>
+    </mat-card-content>
+  }
+</mat-card>

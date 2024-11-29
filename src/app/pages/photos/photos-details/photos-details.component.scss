@@ -1,0 +1,15 @@
+.photo-details {
+  text-align: center;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  
+  &__title {
+    margin-bottom: 15px;
+  }
+}
