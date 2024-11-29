@@ -1,0 +1,9 @@
+.photo-item {
+  &__img {
+    max-width: 100%;
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+}

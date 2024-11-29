@@ -2,6 +2,7 @@ import {
   patchState,
   signalStore,
   withComputed,
+  withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
@@ -59,6 +60,12 @@ export const PhotosStore = signalStore(
   withMethods((store) => ({
     loadMore() {
       patchState(store, { page: store.page() + 1 });
+      store.getPhotos();
+    },
+  })),
+  withHooks((store) => ({
+    onInit: () => {
+      store.getPhotos();
     },
   }))
 );

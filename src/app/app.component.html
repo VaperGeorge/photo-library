@@ -1,1 +1,16 @@
-<router-outlet />
+<div class="container">
+  <div class="main-button-bar">
+    <button mat-stroked-button routerLink="/photos" routerLinkActive="active">
+      Photos
+    </button>
+    <button
+      mat-stroked-button
+      routerLink="/favorites"
+      routerLinkActive="active"
+    >
+      Favorites
+    </button>
+  </div>
+
+  <router-outlet />
+</div>

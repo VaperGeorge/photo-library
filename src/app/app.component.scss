@@ -1,0 +1,21 @@
+.main-button-bar {
+  padding: 25px 0;
+  text-align: center;
+}
+
+.mat-mdc-outlined-button {
+  margin: 0 10px;
+
+  &.active {
+    &:not(:disabled) {
+      color: var(
+        --mdc-filled-button-label-text-color,
+        var(--mat-app-on-primary)
+      );
+      background-color: var(
+        --mdc-filled-button-container-color,
+        var(--mat-app-primary)
+      );
+    }
+  }
+}

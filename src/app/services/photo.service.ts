@@ -11,8 +11,6 @@ export class PhotoService {
     const params = new HttpParams().set('page', page).set('limit', limit);
     const randomDelayNumber = Math.floor(Math.random() * (300 - 200 + 1)) + 200;
 
-    return this.http
-      .get<Photo[]>('https://picsum.photos/v2/list', { params })
-      .pipe(delay(randomDelayNumber));
+    return this.http.get<Photo[]>('https://picsum.photos/v2/list', { params }).pipe(delay(randomDelayNumber));
   }
 }
