@@ -9,7 +9,7 @@ export const PHOTOS_ROUTE: Routes = [
       ),
   },
   {
-    path: ':id',
+    path: ':photoId',
     loadComponent: () =>
       import('./photos-details/photos-details.component').then(
         (c) => c.PhotosDetailsComponent

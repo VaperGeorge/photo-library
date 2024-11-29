@@ -4,13 +4,13 @@
   </mat-card-header>
 
   <mat-card-content>
-    @if (photos().length) {
+    @defer (when photos().length) {
       <div class="favorite-grid">
         @for (photo of photos(); track $index) {
           <app-photos-grid-item class="favorite-grid__item" [photo]="photo" (openDetails)="openDetails($event)" />
         }
       </div>
-    } @else {
+    } @placeholder {
       <div class="empty-state">You don't have favorite photos yet</div>
     }
   </mat-card-content>
