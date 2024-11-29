@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { Photo } from '../../interfaces';
 
@@ -8,7 +8,11 @@ import { Photo } from '../../interfaces';
   imports: [],
   templateUrl: './photos-grid-item.component.html',
   styleUrl: './photos-grid-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotosGridItemComponent {
   photo = input.required<Photo>();
+
+  addToFavorites = output<Photo>();
+  openDetails = output<Photo>();
 }

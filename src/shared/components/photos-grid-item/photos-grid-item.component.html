@@ -1,4 +1,9 @@
 <div class="photo-item">
-  <img class="photo-item__img" [src]="photo().download_url" [alt]="photo().author" />
+  <img
+    class="photo-item__img"
+    [src]="photo().download_url"
+    [alt]="photo().author"
+    (click)="addToFavorites.emit(photo()); openDetails.emit(photo())"
+  />
   <p class="photo-item__name">{{ photo().author }}</p>
 </div>
