@@ -29,7 +29,7 @@ export const PhotosStore = signalStore(
     isLoading: computed(() => store.requestStatus() === 'pending'),
     isFullfilled: computed(() => store.requestStatus() === 'fulfilled'),
   })),
-  withMethods((store, http = inject(PhotoService), favoritesService = inject(FavoriteService)) => ({
+  withMethods((store, http = inject(PhotoService), favoriteService = inject(FavoriteService)) => ({
     getPhotos: rxMethod<void>(
       pipe(
         tap(() => patchState(store, setPending())),
@@ -46,7 +46,7 @@ export const PhotosStore = signalStore(
       ),
     ),
     addToFavorites(photo: Photo) {
-      favoritesService.addPhotoItem(photo);
+      favoriteService.addPhotoItem(photo);
     },
   })),
   withMethods((store) => ({
