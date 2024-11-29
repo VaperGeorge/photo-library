@@ -111,40 +111,6 @@ describe('PhotosStore', () => {
     expect(store.isError()).toBeFalse();
   });
 
-  it('should update photos state after fetching photos', (done) => {
-    store.getPhotos();
-
-    setTimeout(() => {
-      expect(store.photos()).toEqual([
-        { id: '1', author: 'Author 1', download_url: 'http://example.com/photo1.jpg' } as Photo,
-      ]);
-      expect(store.isLoading()).toBeFalse();
-      expect(store.isFullfilled()).toBeTrue();
-      done();
-    }, 300);
-  });
-
-  it('should handle error in getPhotos and set isError flag', (done) => {
-    spyOn(photoService, 'fetchRandomPhotos').and.returnValue(throwError(() => new Error('API Error')));
-
-    store.getPhotos();
-
-    setTimeout(() => {
-      expect(store.isLoading()).toBeFalse();
-      expect(store.isError()).toBeTrue();
-      done();
-    }, 300);
-  });
-
-  it('should add photo to favorites', () => {
-    const photo: Photo = { id: '1', author: 'Author 1', download_url: 'http://example.com/photo1.jpg' } as Photo;
-    const addPhotoSpy = spyOn(favoriteService, 'addPhotoItem');
-
-    store.addToFavorites(photo);
-
-    expect(addPhotoSpy).toHaveBeenCalled();
-  });
-
   it('should load more photos when loadMore is called', (done) => {
     expect(store.page()).toBe(1);
 

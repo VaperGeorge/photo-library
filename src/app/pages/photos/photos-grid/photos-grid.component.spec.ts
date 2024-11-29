@@ -74,10 +74,7 @@ describe('PhotosGridComponent', () => {
   it('should display a list of photos from the store', async () => {
     fixture.detectChanges();
 
-    const firstDeferBlock = (await fixture.getDeferBlocks())[0];
-    await firstDeferBlock.render(ɵDeferBlockState.Complete);
-
-    const photoItems = fixture.debugElement.queryAll(By.css('.photos-grid__item'));
+    const photoItems = fixture.debugElement.queryAll(By.css('app-photos-grid-item'));
     expect(photoItems.length).toBe(2);
   });
 
