@@ -1,4 +1,9 @@
-# PhotoLibrary
+# PhotoLibrary TEST TASK
+
+### This is a TEST APP what I did for one of the companies and here I can show you how familiar with Angular 18, signals, control flow, zoneless, RxJs I am
+P.S. all the code covered with unit tests
+
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
 
