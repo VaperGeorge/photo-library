@@ -14,8 +14,7 @@ export const routes: Routes = [
   {
     path: 'favorites',
     loadComponent: () =>
-      import('./pages/favorites-grid/favorites-grid.component').then(
-        (c) => c.FavoritesGridComponent
-      ),
+      import('./pages/favorites-grid/favorites-grid.component').then((c) => c.FavoritesGridComponent),
   },
+  { path: '**', redirectTo: 'photos' },
 ];
