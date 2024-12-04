@@ -1,19 +1,23 @@
 <mat-card appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Photos</mat-card-title>
+    <mat-card-title>Photos library</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
-    <div class="photos-grid">
-      @for (photo of store.photos(); track $index) {
-      <app-photos-grid-item class="photos-grid__item" [photo]="photo" />
-      }
-    </div>
+    @if (store.isError()) {
+      <div>Something whent wrong or API error</div>
+    } @else {
+      <div class="photos-grid">
+        @for (photo of store.photos(); track $index) {
+          <app-photos-grid-item class="photos-grid__item" [photo]="photo" (addToFavorites)="addToFavorites($event)" />
+        }
+      </div>
+    }
   </mat-card-content>
 
   <mat-card-actions>
     @if (store.isLoading()) {
-    <mat-spinner />
+      <mat-spinner />
     }
   </mat-card-actions>
 </mat-card>
